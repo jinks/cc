@@ -521,7 +521,7 @@ function findOptFuelRods()
       end
       tempMB = r.getEnergyProducedLastTick()
    end
-   while tempMB < 2000 do
+   while tempMB < 2000*numTurbines do
       tempRodLevels = tempRodLevels -1
       r.setAllControlRodLevels(math.floor(tempRodLevels))
       print("Setting Rod Levels to: "..tempRodLevels)
