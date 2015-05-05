@@ -149,13 +149,13 @@ function reactorOnOff()
 end
 
 function turbineOnOff()
-   button.setButton("Online", turbines[0].getActive())
-   button.setButton("Offline", not turbines[0].getActive())
+   button.setButton("Online", turbines[1].getActive())
+   button.setButton("Offline", not turbines[1].getActive())
 end
 
 function coilsOnOff()
-   button.setButton("Coils On", turbines[0].getInductorEngaged())
-   button.setButton("Coils Off", not turbines[0].getInductorEngaged())
+   button.setButton("Coils On", turbines[1].getInductorEngaged())
+   button.setButton("Coils Off", not turbines[1].getInductorEngaged())
 end
 
 function coilsOn()
@@ -324,10 +324,10 @@ function checkEn()
    energy = (p.getEnergyStored()-tempEnergy)/2
    energy = energy*numCapacitors
    if steamReactor then
-     turbineOnline = turbines[0].getActive()
-     turbineRotorSpeed = turbines[0].getRotorSpeed()
-     turbineRFGen = turbines[0].getEnergyProducedLastTick()
-     turbineFluidRate = turbines[0].getFluidFlowRate()
+     turbineOnline = turbines[1].getActive()
+     turbineRotorSpeed = turbines[1].getRotorSpeed()
+     turbineRFGen = turbines[1].getEnergyProducedLastTick()
+     turbineFluidRate = turbines[1].getFluidFlowRate()
    end
 end
 
@@ -362,7 +362,7 @@ function fuelRodLevel()
 end
 
 function turbineInductorDisplay()
-   turbineInductor = turbines[0].getInductorEngaged()
+   turbineInductor = turbines[1].getInductorEngaged()
    m.setCursorPos(30,5)
    if turbineInductor then
       m.write("On")
@@ -453,7 +453,7 @@ function findOptFuelRods()
         displayEn()
         fuelRodLevel()
 		m.setCursorPos(3,6)
-        m.write("Finding Optimal Rod Level, please wait....")
+        m.write("Finding Optimal Rod Level, please wait...")
         m.setCursorPos(3,7)
         m.write("Fluid Amount: "..comma_value(r.getHotFluidAmount()).."mb")
 		m.setCursorPos(3,8)
