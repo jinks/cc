@@ -130,7 +130,7 @@ function offline()
 end
 
 function setTurbineOnline()
-   for i,t in ipairt(turbines)  do
+   for i,t in ipairs(turbines)  do
       t.setActive(true)
    end
    --button.flash("Online")
