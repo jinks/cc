@@ -6,10 +6,16 @@
 
 local images = {}
 
+-- APIs
 if not fs.exists("/touchpoint") then
    shell.run("/openp/github", "get", "lyqyd/Touchpoint/master/touchpoint", "/touchpoint")
 end
 os.loadAPI("touchpoint")
+
+if not fs.exists("/drawmon") then
+   shell.run("/openp/github", "get", "jinks/cc/master/drawmon", "/drawmon")
+end
+os.loadAPI("drawmon")
 
 local function findMonitor()
    for p in peripheral.getNames() do
@@ -79,3 +85,4 @@ local function init()
 end
 
 init()
+drawmon.drawImage(images["turbineOff"],5,1)
