@@ -27,6 +27,7 @@ local reactor = peripheral.find("BigReactors-Reactor")
 local turbines = {peripheral.find("BigReactors-Turbine")}
 
 local steamReactor = reactor and reactor.isActivelyCooled()
+local images = {}
 local energy = {}
 local turbineData = {}
 
@@ -34,7 +35,7 @@ local reactorPage = touchpoint.new(findMonitor())
 local turbinePage = touchpoint.new(findMonitor())
 
 local function findMonitor()
-   for p in peripheral.getNames() do
+   for _,p in pairs(peripheral.getNames()) do
       if type(p) == "string" and p:find("monitor") then
          return p
       end
@@ -121,9 +122,9 @@ function checkTurbines()
       local fluidRate = 0
       for _,t in pairs(turbines) do
          if t.getActive() then online = true end
-         avgSpeed += t.getRotorSpeed()
-         rfGen += t.getEnergyProducedLastTick()
-         fluidRate += t.getFluidFlowRate()
+         avgSpeed = avgSpeed + t.getRotorSpeed()
+         rfGen = rfGen + t.getEnergyProducedLastTick()
+         fluidRate = fluidrate + t.getFluidFlowRate()
       end
       turbineData.online = online
       turbineData.speed = avgSpeed / #turbines
