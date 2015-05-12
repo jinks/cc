@@ -128,9 +128,20 @@ function checkTurbines()
       end
       turbineData.online = online
       turbineData.speed = avgSpeed / #turbines
-      turbinedata.rfGen = rfGen
-      turbinedata.fluidRate = fluidRate
+      turbineData.rfGen = rfGen
+      turbineData.fluidRate = fluidRate
    end
+end
+
+function mainLoop()
+   checkEn()
+   checkTurbines()
+   term.clear()
+   print("Storage: "..energy.stored.." / "..energy.maxStored.." ("..energy.storedPercent.."%)")
+   print("Change: "..energy.change)
+   print()
+   print(#turbines.." Turbines @"..turbineData.speed.." avg RPM")
+   print("Generating "..turbineData.rfGen.." RF/t from "..turbineData.fluidRate.." mB/t Steam.")
 end
 
 init()
