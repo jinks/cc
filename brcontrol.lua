@@ -3,11 +3,14 @@
 --
 -- Heavily based on code by DW20
 
+local config = {
+   numCapacitors = 8,
+   turnOnAt = 50,
+   turnOffAt = 90
+}
 
-local images = {}
-local monitor = peripheral.wrap(findMonitor())
 
--- APIs
+-- fetch and load APIs
 if not fs.exists("/touchpoint") then
    shell.run("/openp/github", "get", "lyqyd/Touchpoint/master/touchpoint", "/touchpoint")
 end
@@ -17,6 +20,18 @@ if not fs.exists("/drawmon") then
    shell.run("/openp/github", "get", "jinks/cc/master/drawmon.lua", "/drawmon")
 end
 os.loadAPI("drawmon")
+
+local monitor = peripheral.wrap(findMonitor())
+local powerStorage = peripheral.find("tile_blockcapacitorbank_name")
+local reactor = peripheral.find("BigReactors-Reactor")
+local turbines = {peripheral.find("BigReactors-Turbine")}
+
+local steamReactor = reactor and reactor.isActivelyCooled()
+local energy = {}
+local turbineData = {}
+
+local reactorPage = touchpoint.new(findMonitor())
+local turbinePage = touchpoint.new(findMonitor())
 
 local function findMonitor()
    for p in peripheral.getNames() do
@@ -85,5 +100,37 @@ local function init()
    images["rods"] = paintutils.loadImage("/reactorImages/rodsBG.img")
 end
 
+function checkEn()
+   energy.stored = powerStorage.getEnergyStored()
+   energy.maxStored = powerStorage.getMaxEnergyStored()
+   energy.storedPercent = math.floor((energy.stored/energy.maxStored)*100)
+   energy.rfProduction = reactor.getEnergyProducedLastTick()
+   energy.fuelUse = math.floor(reactor.getFuelConsumedLastTick()*100)/100
+   energy.coreTemp = reactor.getFuelTemperature()
+   energy.reactorOnline = reactor.getActive()
+   local tempEnergy = powerStorage.getEnergyStored()
+   sleep(0.1)
+   energy.change = ((powerStorage.getEnergyStored()-tempEnergy)/2)*numCapacitors
+end
+
+function checkTurbines()
+   if steamReactor then
+      local online = false
+      local avgSpeed = 0
+      local rfGen = 0
+      local fluidRate = 0
+      for _,t in pairs(turbines) do
+         if t.getActive() then online = true end
+         avgSpeed += t.getRotorSpeed()
+         rfGen += t.getEnergyProducedLastTick()
+         fluidRate += t.getFluidFlowRate()
+      end
+      turbineData.online = online
+      turbineData.speed = avgSpeed / #turbines
+      turbinedata.rfGen = rfGen
+      turbinedata.fluidRate = fluidRate
+   end
+end
+
 init()
-drawmon.drawImage(monitor, images["turbineOff"],5,1)
+-- drawmon.drawImage(monitor, images["turbineOff"],5,1)
