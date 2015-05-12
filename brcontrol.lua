@@ -7,7 +7,7 @@
 local images = {}
 
 if not fs.exists("/touchpoint") then
-   shell.run("/openp/github", "get", "lyqyd/Touchpint/master/touchpoint", "/touchpoint")
+   shell.run("/openp/github", "get", "lyqyd/Touchpoint/master/touchpoint", "/touchpoint")
 end
 os.loadAPI("touchpoint")
 
@@ -22,7 +22,7 @@ end
 
 local function init()
    if not fs.isDir("/reactorImages") then
-      fs.mkDir("/reactorImages")
+      fs.makeDir("/reactorImages")
    end
    if not fs.exists("/reactorImages/turbineOff.img") then
       img = fs.open("/reactorImages/turbineOff.img","w")
@@ -38,6 +38,7 @@ local function init()
       img.writeLine("78b7b87")
       img.writeLine("78b7b87")
       img.write("7777777")
+      img.close()
    end
    if not fs.exists("/reactorImages/turbineOn.img") then
       img = fs.open("/reactorImages/turbineOn.img","w")
@@ -53,6 +54,7 @@ local function init()
       img.writeLine("78e7e87")
       img.writeLine("78e7e87")
       img.write("7777777")
+      img.close()
    end
    if not fs.exists("/reactorImages/rodsBG.img") then
       img = fs.open("reactorImages/rodsBG.img","w")
@@ -68,6 +70,7 @@ local function init()
       img.writeLine("7444447")
       img.writeLine("7444447")
       img.write("7777777")
+      img.close()
    end
 
    images["turbineOff"] = paintutils.loadImage("/reactorImages/turbineOff.img")
