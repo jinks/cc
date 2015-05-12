@@ -14,4 +14,5 @@ function drawImage(mon, image, x, y)
       drawPixel(mon, x, y, c)
     end
   end
+  mon.setBackgroundColor(colors.black)
 end

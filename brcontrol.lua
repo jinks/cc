@@ -5,6 +5,7 @@
 
 
 local images = {}
+local monitor = peripheral.wrap(findMonitor())
 
 -- APIs
 if not fs.exists("/touchpoint") then
@@ -13,7 +14,7 @@ end
 os.loadAPI("touchpoint")
 
 if not fs.exists("/drawmon") then
-   shell.run("/openp/github", "get", "jinks/cc/master/drawmon", "/drawmon")
+   shell.run("/openp/github", "get", "jinks/cc/master/drawmon.lua", "/drawmon")
 end
 os.loadAPI("drawmon")
 
@@ -85,4 +86,4 @@ local function init()
 end
 
 init()
-drawmon.drawImage(images["turbineOff"],5,1)
+drawmon.drawImage(monitor, images["turbineOff"],5,1)
